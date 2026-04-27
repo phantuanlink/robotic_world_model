@@ -6,6 +6,8 @@
 from isaaclab.utils import configclass
 
 from isaaclab_tasks.manager_based.locomotion.velocity.config.anymal_d.agents.rsl_rl_ppo_cfg import AnymalDFlatPPORunnerCfg
+from isaaclab_tasks.manager_based.locomotion.velocity.config.go2.agents.rsl_rl_ppo_cfg import UnitreeGo2FlatPPORunnerCfg
+
 from mbrl.rl.rsl_rl import (
     RslRlSystemDynamicsCfg,
     RslRlNormalizerCfg,
@@ -15,7 +17,7 @@ from mbrl.rl.rsl_rl import (
 
 
 @configclass
-class AnymalDFlatPPOPretrainRunnerCfg(AnymalDFlatPPORunnerCfg):
+class AnymalDFlatPPOPretrainRunnerCfg(UnitreeGo2FlatPPORunnerCfg):
     class_name: str = "MBPOOnPolicyRunner"
 
     system_dynamics = RslRlSystemDynamicsCfg(

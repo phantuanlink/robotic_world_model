@@ -10,6 +10,7 @@ from isaaclab.managers import SceneEntityCfg
 from isaaclab.utils import configclass
 
 from isaaclab_tasks.manager_based.locomotion.velocity.config.anymal_d.rough_env_cfg import AnymalDRoughEnvCfg
+from isaaclab_tasks.manager_based.locomotion.velocity.config.go2.rough_env_cfg import UnitreeGo2RoughEnvCfg
 from isaaclab_tasks.manager_based.locomotion.velocity.velocity_env_cfg import ObservationsCfg, RewardsCfg
 
 from isaaclab.terrains.config.rough import ROUGH_TERRAINS_CFG  # isort: skip
@@ -26,7 +27,7 @@ class RewardsCfg_TRAIN(RewardsCfg):
 
 
 @configclass
-class AnymalDFlatEnvCfg(AnymalDRoughEnvCfg):
+class AnymalDFlatEnvCfg(UnitreeGo2RoughEnvCfg):
     
     rewards: RewardsCfg_TRAIN = RewardsCfg_TRAIN()
     
@@ -111,8 +112,8 @@ class ObservationsCfg_PRETRAIN(ObservationsCfg):
     class SystemContactCfg(ObsGroup):
 
         # observation terms (order preserved)
-        thigh_contact = ObsTerm(func=mdp.body_contact, params={"sensor_cfg": SceneEntityCfg("contact_forces", body_names=".*THIGH"), "threshold": 1.0})
-        foot_contact = ObsTerm(func=mdp.body_contact, params={"sensor_cfg": SceneEntityCfg("contact_forces", body_names=".*FOOT"), "threshold": 1.0})
+        thigh_contact = ObsTerm(func=mdp.body_contact, params={"sensor_cfg": SceneEntityCfg("contact_forces", body_names=".*thigh"), "threshold": 1.0})
+        foot_contact = ObsTerm(func=mdp.body_contact, params={"sensor_cfg": SceneEntityCfg("contact_forces", body_names=".*foot"), "threshold": 1.0})
 
         def __post_init__(self):
             self.enable_corruption = False
