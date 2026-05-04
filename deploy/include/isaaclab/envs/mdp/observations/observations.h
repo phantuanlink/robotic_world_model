@@ -10,6 +10,13 @@ namespace isaaclab
 namespace mdp
 {
 
+REGISTER_OBSERVATION(base_lin_vel)
+{
+    auto & asset = env->robot;
+    auto & data = asset->data.root_lin_vel_b;
+    return std::vector<float>(data.data(), data.data() + data.size());
+}
+
 REGISTER_OBSERVATION(base_ang_vel)
 {
     auto & asset = env->robot;

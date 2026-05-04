@@ -1,0 +1,63 @@
+# joint_ids_map: maps policy output index (Isaac Lab alphabetical order) → Unitree SDK motor index
+# Isaac Lab order: FL_calf(0), FL_hip(1), FL_thigh(2), FR_calf(3), FR_hip(4), FR_thigh(5),
+#                  RL_calf(6), RL_hip(7), RL_thigh(8), RR_calf(9), RR_hip(10), RR_thigh(11)
+# SDK order:       FL_hip(0), FL_thigh(1), FL_calf(2), FR_hip(3), FR_thigh(4), FR_calf(5),
+#                  RL_hip(6), RL_thigh(7), RL_calf(8), RR_hip(9), RR_thigh(10), RR_calf(11)
+joint_ids_map: [2, 0, 1, 5, 3, 4, 8, 6, 7, 11, 9, 10]
+step_dt: 0.02
+stiffness: [25.0, 25.0, 25.0, 25.0, 25.0, 25.0, 25.0, 25.0, 25.0, 25.0, 25.0, 25.0]
+damping: [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]
+# default_joint_pos in Isaac Lab alphabetical order
+# FL_calf, FL_hip, FL_thigh, FR_calf, FR_hip, FR_thigh, RL_calf, RL_hip, RL_thigh, RR_calf, RR_hip, RR_thigh
+default_joint_pos: [-1.5, 0.1, 0.8, -1.5, -0.1, 0.8, -1.5, 0.1, 1.0, -1.5, -0.1, 1.0]
+commands:
+  base_velocity:
+    ranges:
+      lin_vel_x: [-1.0, 1.0]
+      lin_vel_y: [-1.0, 1.0]
+      ang_vel_z: [-1.0, 1.0]
+      heading: null
+actions:
+  JointPositionAction:
+    clip: null
+    joint_names: [.*]
+    scale: [0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25]
+    offset: [-1.5, 0.1, 0.8, -1.5, -0.1, 0.8, -1.5, 0.1, 1.0, -1.5, -0.1, 1.0]
+    joint_ids: null
+# Observations in exact training order (policy group from env.yaml)
+observations:
+  base_lin_vel:
+    params: {}
+    clip: null
+    scale: [1.0, 1.0, 1.0]
+    history_length: 1
+  base_ang_vel:
+    params: {}
+    clip: null
+    scale: [1.0, 1.0, 1.0]
+    history_length: 1
+  projected_gravity:
+    params: {}
+    clip: null
+    scale: [1.0, 1.0, 1.0]
+    history_length: 1
+  velocity_commands:
+    params: {command_name: base_velocity}
+    clip: null
+    scale: [1.0, 1.0, 1.0]
+    history_length: 1
+  joint_pos_rel:
+    params: {}
+    clip: null
+    scale: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+    history_length: 1
+  joint_vel_rel:
+    params: {}
+    clip: null
+    scale: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+    history_length: 1
+  last_action:
+    params: {}
+    clip: null
+    scale: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+    history_length: 1
