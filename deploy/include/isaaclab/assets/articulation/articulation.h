@@ -28,6 +28,9 @@ struct ArticulationData
     // Joint velocities of all joints.
     Eigen::VectorXf joint_vel;
 
+    // Root linear velocity in base frame.
+    Eigen::Vector3f root_lin_vel_b = Eigen::Vector3f::Zero();
+
     // Root angular velocity in base world frame.
     Eigen::Vector3f root_ang_vel_b;
 

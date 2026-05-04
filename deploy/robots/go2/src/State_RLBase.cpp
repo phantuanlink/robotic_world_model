@@ -2,6 +2,36 @@
 #include "unitree_articulation.h"
 #include "isaaclab/envs/mdp/observations/observations.h"
 #include "isaaclab/envs/mdp/actions/joint_actions.h"
+#include <unordered_map>
+
+namespace isaaclab
+{
+REGISTER_OBSERVATION(keyboard_velocity_commands)
+{
+    std::string key = FSMState::keyboard->key();
+    static auto cfg = env->cfg["commands"]["base_velocity"]["ranges"];
+
+    static std::unordered_map<std::string, std::vector<float>> key_commands = {
+        {"up",    {1.0f, 0.0f, 0.0f}},
+        {"down",  {-1.0f, 0.0f, 0.0f}},
+        {"left",  {0.0f, 0.0f, 1.0f}},
+        {"right", {0.0f, 0.0f, -1.0f}},
+        {"w",     {1.0f, 0.0f, 0.0f}},
+        {"s",     {-1.0f, 0.0f, 0.0f}},
+        {"a",     {0.0f, 1.0f, 0.0f}},
+        {"d",     {0.0f, -1.0f, 0.0f}},
+    };
+
+    std::vector<float> cmd = {0.0f, 0.0f, 0.0f};
+    auto it = key_commands.find(key);
+    if (it != key_commands.end()) {
+        cmd[0] = std::clamp(it->second[0], cfg["lin_vel_x"][0].as<float>(), cfg["lin_vel_x"][1].as<float>());
+        cmd[1] = std::clamp(it->second[1], cfg["lin_vel_y"][0].as<float>(), cfg["lin_vel_y"][1].as<float>());
+        cmd[2] = std::clamp(it->second[2], cfg["ang_vel_z"][0].as<float>(), cfg["ang_vel_z"][1].as<float>());
+    }
+    return cmd;
+}
+}
 
 State_RLBase::State_RLBase(int state_mode, std::string state_string)
 : FSMState(state_mode, state_string) 

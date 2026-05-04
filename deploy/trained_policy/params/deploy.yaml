@@ -1,0 +1,65 @@
+# Joint ordering: IsaacLab alphabetical (FL_calf, FL_hip, FL_thigh, FR_calf, FR_hip, FR_thigh,
+#                                        RL_calf, RL_hip, RL_thigh, RR_calf, RR_hip, RR_thigh)
+# mapped to Unitree SDK (FR_hip=0, FR_thigh=1, FR_calf=2, FL_hip=3, FL_thigh=4, FL_calf=5,
+#                        RR_hip=6, RR_thigh=7, RR_calf=8, RL_hip=9, RL_thigh=10, RL_calf=11)
+joint_ids_map: [5, 3, 4, 2, 0, 1, 11, 9, 10, 8, 6, 7]
+step_dt: 0.02
+stiffness: [25.0, 25.0, 25.0, 25.0, 25.0, 25.0, 25.0, 25.0, 25.0, 25.0, 25.0, 25.0]
+damping: [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]
+# In IsaacLab order: FL_calf, FL_hip, FL_thigh, FR_calf, FR_hip, FR_thigh, RL_calf, RL_hip, RL_thigh, RR_calf, RR_hip, RR_thigh
+default_joint_pos: [-1.5, 0.1, 0.8, -1.5, -0.1, 0.8, -1.5, 0.1, 1.0, -1.5, -0.1, 1.0]
+commands:
+  base_velocity:
+    ranges:
+      lin_vel_x: [-1.0, 1.0]
+      lin_vel_y: [-1.0, 1.0]
+      ang_vel_z: [-1.0, 1.0]
+actions:
+  JointPositionAction:
+    clip: null
+    scale: [0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25]
+    offset: [-1.5, 0.1, 0.8, -1.5, -0.1, 0.8, -1.5, 0.1, 1.0, -1.5, -0.1, 1.0]
+    joint_ids: null
+observations:
+  state:
+    base_lin_vel:
+      params: {}
+      clip: null
+      scale: null
+      history_length: 1
+    base_ang_vel:
+      params: {}
+      clip: null
+      scale: null
+      history_length: 1
+    projected_gravity:
+      params: {}
+      clip: null
+      scale: null
+      history_length: 1
+    keyboard_velocity_commands:
+      params: {}
+      clip: null
+      scale: null
+      history_length: 1
+    joint_pos_rel:
+      params: {}
+      clip: null
+      scale: null
+      history_length: 1
+    joint_vel_rel:
+      params: {}
+      clip: null
+      scale: null
+      history_length: 1
+    last_action:
+      params: {}
+      clip: null
+      scale: null
+      history_length: 1
+  action:
+    last_action:
+      params: {}
+      clip: null
+      scale: null
+      history_length: 1

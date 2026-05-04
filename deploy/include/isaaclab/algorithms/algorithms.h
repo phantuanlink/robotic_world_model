@@ -44,9 +44,10 @@ public:
             input_names.push_back(input_name.release());
         }
 
-        for (const auto& shape : input_shapes) {
+        for (auto& shape : input_shapes) {
             size_t size = 1;
-            for (const auto& dim : shape) {
+            for (auto& dim : shape) {
+                if (dim < 0) dim = 1; // replace dynamic batch dim with 1
                 size *= dim;
             }
             input_sizes.push_back(size);
