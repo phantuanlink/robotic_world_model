@@ -21,8 +21,6 @@ public:
     void update() override
     {
         std::lock_guard<std::mutex> lock(lowstate->mutex_);
-        // base_linear_velocity in body frame (from robot state estimator, world frame → body frame)
-        Eigen::Vector3f v_w = Eigen::Map<const Eigen::Vector3f>(lowstate->msg_.velocity().data());
         // base_angular_velocity
         for(int i(0); i<3; i++) {
             data.root_ang_vel_b[i] = lowstate->msg_.imu_state().gyroscope()[i];
@@ -34,7 +32,6 @@ public:
             lowstate->msg_.imu_state().quaternion()[2],
             lowstate->msg_.imu_state().quaternion()[3]
         );
-        data.root_lin_vel_b = data.root_quat_w.conjugate() * v_w;
         data.projected_gravity_b = data.root_quat_w.conjugate() * data.GRAVITY_VEC_W;
         // joint positions and velocities
         for(int i(0); i< data.joint_ids_map.size(); i++) {
