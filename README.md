@@ -199,6 +199,49 @@ Key files:
 
 ---
 
+## Go2 Real Robot Deployment
+
+### Prerequisites
+
+- ONNX Runtime shared library symlink (missing from the distributed package):
+
+```bash
+ln -s libonnxruntime.so.1.22.0 deploy/thirdparty/onnxruntime-linux-x64-1.22.0/lib/libonnxruntime.so
+```
+
+This only needs to be done once per machine.
+
+### Build
+
+```bash
+cd deploy/robots/go2
+mkdir -p build && cd build
+cmake ..
+make
+```
+
+The executable is produced at `deploy/robots/go2/build/go2_ctrl`.
+
+### Configure the policy
+
+In [deploy/robots/go2/config/config.yaml](deploy/robots/go2/config/config.yaml), set `FSM.Velocity.policy_dir` to the path of your exported policy checkpoint. The default points to:
+
+```
+deploy/logs/rsl_rl/unitree_go2_velocity/
+```
+
+The controller expects an `exported/` subfolder inside that directory (or will pick the last sorted subdirectory that contains one).
+
+### Run
+
+```bash
+./deploy/robots/go2/build/go2_ctrl -n <network_interface>
+```
+
+`-n` specifies the DDS network interface (e.g. `eth0`). Omit it to use the default empty string (loopback/simulation).
+
+---
+
 ## Citation
 If you find this repository useful for your research, please consider citing:
 
