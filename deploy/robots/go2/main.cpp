@@ -33,7 +33,7 @@ int main(int argc, char** argv)
     std::cout << "     Go2 Controller \n";
 
     // Unitree DDS Config
-    unitree::robot::ChannelFactory::Instance()->Init(0, vm["network"].as<std::string>());
+    unitree::robot::ChannelFactory::Instance()->Init(1, vm["network"].as<std::string>());
 
     init_fsm_state();
 
