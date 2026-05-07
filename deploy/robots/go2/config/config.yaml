@@ -8,14 +8,14 @@ FSM:
       id: 3
       type: RLBase
   Passive:
-    transitions: 
-      FixStand: LT + A.on_pressed
+    transitions:
+      FixStand: keyboard:f
     mode: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
     kd: [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3]
   FixStand:
-    transitions: 
-      Passive: LT + B.on_pressed
-      Velocity: start.on_pressed
+    transitions:
+      Passive: keyboard:q
+      Velocity: keyboard:v
     kp: [60, 80, 80, 60, 80, 80, 60, 80, 80, 60, 80, 80]
     kd: [5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4]
     ts: [0, 1, 2]
@@ -25,7 +25,7 @@ FSM:
       [0.1, 0.8, -1.5, -0.1, 0.8, -1.5, 0.1, 1.0, -1.5, -0.1, 1.0, -1.5],
     ]
   Velocity:
-    transitions: 
-      Passive: LT + B.on_pressed
+    transitions:
+      Passive: keyboard:q
     policy_dir: config/policy/velocity
     

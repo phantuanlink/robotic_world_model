@@ -32,15 +32,28 @@ public:
                 int fsm_id = FSMStringMap.right.at(target_fsm);
 
                 std::string condition = it->second;
-                unitree::common::dsl::Parser p(condition);
-                auto ast = p.Parse();
-                auto func = unitree::common::dsl::Compile(*ast);
-                registered_checks.emplace_back(
-                    std::make_pair(
-                        [func]()->bool{ return func(FSMState::lowstate->joystick); },
-                        fsm_id
-                    )
-                );
+                if(condition.rfind("keyboard:", 0) == 0) {
+                    std::string keyname = condition.substr(9);
+                    registered_checks.emplace_back(
+                        std::make_pair(
+                            [keyname]()->bool{
+                                auto kb = FSMState::keyboard;
+                                return kb && kb->on_pressed && kb->key() == keyname;
+                            },
+                            fsm_id
+                        )
+                    );
+                } else {
+                    unitree::common::dsl::Parser p(condition);
+                    auto ast = p.Parse();
+                    auto func = unitree::common::dsl::Compile(*ast);
+                    registered_checks.emplace_back(
+                        std::make_pair(
+                            [func]()->bool{ return func(FSMState::lowstate->joystick); },
+                            fsm_id
+                        )
+                    );
+                }
             }
         }
 
