@@ -10,15 +10,15 @@ FSM:
     ZeroTorque:
       id: 4
   Passive:
-    transitions: 
-      FixStand: LT + A.on_pressed
+    key_transitions:
+      FixStand: f         # [F] fix stand
     mode: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
     kd: [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3]
   FixStand:
-    transitions:
-      Passive: LT + B.on_pressed
-      Velocity: start.on_pressed
-      ZeroTorque: back.on_pressed
+    key_transitions:
+      Passive: p          # [P] back to passive
+      Velocity: v         # [V] start policy
+      ZeroTorque: e       # [E] emergency stop
     kp: [60, 80, 80, 60, 80, 80, 60, 80, 80, 60, 80, 80]
     kd: [5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4]
     ts: [0, 1, 2]
@@ -28,11 +28,10 @@ FSM:
       [0.1, 0.8, -1.5, -0.1, 0.8, -1.5, 0.1, 1.0, -1.5, -0.1, 1.0, -1.5],
     ]
   Velocity:
-    transitions:
-      Passive: LT + B.on_pressed
-      ZeroTorque: back.on_pressed
+    key_transitions:
+      Passive: p          # [P] back to passive
+      ZeroTorque: e       # [E] emergency stop
     policy_dir: config/policy/velocity/v0
   ZeroTorque:
-    transitions:
-      Passive: start.on_pressed
-    
+    key_transitions:
+      Passive: r          # [R] resume to passive

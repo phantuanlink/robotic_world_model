@@ -1,0 +1,15 @@
+<CycloneDDS>
+  <Domain>
+    <General>
+      <Interfaces>
+        <NetworkInterface name="eth0" multicast="true"/>
+      </Interfaces>
+    </General>
+    <Discovery>
+      <Peers>
+        <Peer address="192.168.123.161"/>
+      </Peers>
+      <ParticipantIndex>auto</ParticipantIndex>
+    </Discovery>
+  </Domain>
+</CycloneDDS>

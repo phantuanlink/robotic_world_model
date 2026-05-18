@@ -57,6 +57,8 @@ inline std::filesystem::path get_bin_path() {
 }
 
 /* ---------- config.yaml ---------- */
+inline std::string config_filename = "config.yaml";
+
 inline void load_config_file()
 {
     assert(std::filesystem::exists(bin_path)); // run param::helper before this function
@@ -72,13 +74,19 @@ inline void load_config_file()
     }
 
     try {
-        std::string config_file = (config_dir / "config.yaml").string();
+        std::string config_file = (config_dir / config_filename).string();
         if(std::filesystem::exists(config_file))
         {
             config = YAML::LoadFile(config_file);
+            spdlog::info("Loaded config: {}", config_file);
+        }
+        else
+        {
+            spdlog::error("Config file not found: {}", config_file);
+            exit(1);
         }
     } catch (const YAML::BadFile& e) {
-        spdlog::error("Failed to load config.yaml: {}", e.what());
+        spdlog::error("Failed to load {}: {}", config_filename, e.what());
         exit(1);
     }
 }
@@ -122,6 +130,16 @@ namespace po = boost::program_options;
 inline po::variables_map helper(int argc, char** argv) 
 {
     bin_path = get_bin_path();
+
+    // parse --config before load_config_file() so the filename is set first
+    po::options_description pre_desc;
+    pre_desc.add_options()
+        ("config,c", po::value<std::string>()->default_value("config.yaml"), "");
+    po::variables_map pre_vm;
+    po::store(po::command_line_parser(argc, argv).options(pre_desc).allow_unregistered().run(), pre_vm);
+    po::notify(pre_vm);
+    config_filename = pre_vm["config"].as<std::string>();
+
     load_config_file();
 
     po::options_description desc("Unitree Controller");
@@ -130,6 +148,7 @@ inline po::variables_map helper(int argc, char** argv)
         ("version,v", "show version")
         ("log", "record log file")
         ("network,n", po::value<std::string>()->default_value(""), "dds network interface")
+        ("config,c", po::value<std::string>()->default_value("config.yaml"), "config file name (relative to config dir)")
         ;
 
     po::variables_map vm;

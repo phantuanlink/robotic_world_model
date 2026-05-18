@@ -2,6 +2,7 @@
 #include "FSM/State_Passive.h"
 #include "FSM/State_FixStand.h"
 #include "FSM/State_RLBase.h"
+#include "FSM/State_ZeroTorque.h"
 
 std::unique_ptr<LowCmd_t> FSMState::lowcmd = nullptr;
 std::shared_ptr<LowState_t> FSMState::lowstate = nullptr;
@@ -33,9 +34,10 @@ int main(int argc, char** argv)
     std::cout << "     Go2 Controller \n";
 
     // Unitree DDS Config
-    unitree::robot::ChannelFactory::Instance()->Init(1, vm["network"].as<std::string>());
+    unitree::robot::ChannelFactory::Instance()->Init(0, vm["network"].as<std::string>());
 
     init_fsm_state();
+    FSMState::keyboard = std::make_shared<Keyboard>();
 
     // Initialize FSM
     auto fsm = std::make_unique<CtrlFSM>(param::config["FSM"]);
