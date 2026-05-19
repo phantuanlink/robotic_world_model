@@ -366,3 +366,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+# run_uncertainty_viz.py --checkpoint checkpoints_paws/model_2000_pretrain.pt --data utils_paws/walk_spot2.npz --device cpu --pause 0.05 --update_every 10
