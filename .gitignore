@@ -49,6 +49,13 @@ docker/artifacts/
 # Doc Outputs
 **/docs/_build/*
 **/generated/*
+*.pt
+*.pth
+*.png
+*.ckpt
+*.csv
+logs/
+outputs/
 
 # Isaac-Sim packman
 _isaac_sim*
@@ -72,3 +79,9 @@ tests/
 
 # Docker history
 .isaac-lab-docker-history
+
+# Large data / checkpoints (not tracked in git)
+*.zip
+*.bin
+*.npz
+.claude/
